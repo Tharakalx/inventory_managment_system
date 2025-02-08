@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Book an Appointment</h2>
+        <form action="../process/appointment_process.php" method="POST">
+            <select name="doctor_id" required>
+                <option value="">Select Doctor</option>
+                <?php
+                include '../config/database.php';
+                $result = $conn->query("SELECT user_id, name FROM users WHERE role = 'doctor'");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='{$row['user_id']}'>{$row['name']}</option>";
+                }
+                ?>
+            </select>
+
+            <select name="dispensary_id" required>
+                <option value="">Select Dispensary</option>
+                <?php
+                $result = $conn->query("SELECT dispensary_id, name FROM dispensaries");
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='{$row['dispensary_id']}'>{$row['name']}</option>";
+                }
+                ?>
+            </select>
+
+            <input type="datetime-local" name="time_slot" required>
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+</body>
+</html>
